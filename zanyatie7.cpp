@@ -1,3 +1,5 @@
+/* question 3 */
+
 #include "stdafx.h"
 #include <iostream>
 using namespace std;
@@ -22,6 +24,8 @@ int main()
 	cout << MIN_a * MIN_b << "\n";
 	cout << MAX_a * MAX_b << "\n";
 
+
+
 	system("pause");
 }
 
@@ -45,6 +49,6 @@ float min(float a, float b)
 float min(float ar[], int k)
 {
 	float m = ar[0];
-	for (int i = 1; i < k; i++) m = max(m, ar[i]);
+	for (int i = 1; i < k; i++) m = min(m, ar[i]);
 	return m;
 }
