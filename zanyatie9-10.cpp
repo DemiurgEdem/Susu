@@ -65,7 +65,14 @@ int main() {
 	}
 	else cout << "File not found";
 
-
+	ofstream out; 
+	out.open("prices2.txt");
+	int i = 10;
+	char s[10]{ "Hello" };
+	double d = 2e-10;
+	out << i << "\n" << s << "\n" << d <<
+		endl;
+	out.close();
 
 
 
