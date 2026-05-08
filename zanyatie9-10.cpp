@@ -1,11 +1,11 @@
-#include "stdafx.h"
 #include <iostream>
 #include <fstream>
+
 using namespace std;
 
 enum ttype { charter, transit, docking };
 const int SIZE = 20;
-struct ttime{
+struct ttime {
 	int h, m;
 };
 
@@ -43,40 +43,22 @@ timetable* init() {
 	return tables;
 }
 
+//bool isGrad(const char* str) {
+//	if (str[-4] == "град")
+//}
+
 int main() {
 	setlocale(LC_ALL, "");
 
-	struct timetable w;
 	timetable* tables;
 	tables = init();
 
-	ifstream fin1;
-	//string str;
-	fin1.open("prices.txt"); // файл должен быть в ANSI _кодировке, чтобы выводились русские буквы
-	if (fin1.is_open()) {
-		int i = 0;
-		while (!fin1.eof())
-		{
-			fin1 >> tables[i].price;
-			cout << tables[i].destination << " " << tables[i].price << endl;
-			i++;
-		}
-		fin1.close();
-	}
-	else cout << "File not found";
+	cout << tables[17].destination << endl;
+	cout << tables[0].arrival.h << endl;
 
-	ofstream out; 
-	out.open("prices2.txt");
-	int i = 10;
-	char s[10]{ "Hello" };
-	double d = 2e-10;
-	out << i << "\n" << s << "\n" << d <<
-		endl;
-	out.close();
-
-
-
-
+	char lilStr[25];
+	strcpy_s(lilStr, tables[17].destination);
+	cout << lilStr;
 
 
 
@@ -91,3 +73,37 @@ int main() {
 
 	system("pause");
 }
+
+
+
+
+
+
+
+//struct timetable w;
+//timetable* tables;
+//tables = init();
+
+//ifstream fin1;
+////string str;
+//fin1.open("prices.txt"); // файл должен быть в ANSI _кодировке, чтобы выводились русские буквы
+//if (fin1.is_open()) {
+//	int i = 0;
+//	while (!fin1.eof())
+//	{
+//		fin1 >> tables[i].price;
+//		cout << tables[i].destination << " " << tables[i].price << endl;
+//		i++;
+//	}
+//	fin1.close();
+//}
+//else cout << "File not found";
+
+//ofstream out;
+//out.open("prices2.txt");
+//int i = 10;
+//char s[10]{ "Hello" };
+//double d = 2e-10;
+//out << i << "\n" << s << "\n" << d <<
+//	endl;
+//out.close();
