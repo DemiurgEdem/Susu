@@ -1,5 +1,3 @@
-
-#include "stdafx.h"
 #include <string>
 #include <iostream>
 
@@ -39,7 +37,40 @@ public:
 	}
 	void show() {
 		ship::show();
-		cout << "Колличество мачт: " << mast << '\n';
+		cout << "Колличество мачт: " << mast << endl;
+	}
+};
+
+class steamship : public ship {
+	int power;
+
+public:
+	steamship(
+		string name = "", int volume = 0, int maxSpeed = 0, int power = 0) : ship(name, volume, maxSpeed) {
+		this->power = power < 0 ? 0 : power;
+	}
+
+	void show() {
+		ship::show();
+		cout << "Мощность: " << power << endl;
+	}
+};
+
+class corvette : public ship {
+	int cannons;
+	int sail;
+
+public:
+	corvette(
+		string name = "", int volume = 0, int maxSpeed = 0, int cannons = 0, int sail = 0) : ship(name, volume, maxSpeed) {
+		this->cannons = cannons < 0 ? 0 : cannons;
+		this->sail = sail < 0 ? 0 : sail;
+	}
+
+	void show() override {
+		ship::show();
+		cout << "Количество пушек: " << cannons << endl;
+		cout << "Количество мачт: " << sail << endl;
 	}
 };
 
@@ -59,6 +90,12 @@ int main()
 	sailboat sb1("Черная жемчужина", 600, 25, 2);
 	sailboat sb2;
 
+	steamship st1("Пар-Парыч", 2100, 14, 9000000);
+	steamship st2("Дым-Дымч", 1950, 12, 32525);
+
+	corvette c1("SpeeDiddy", 1400, 20, 7, 4);
+	corvette c2("Чикен Фрай", 1600, 15, 5, 2);
+
 	s1.show();
 	s2.show();
 	s3.show();
@@ -70,11 +107,19 @@ int main()
 	sb2.show();
 
 	cout << endl;
+	st1.show();
+	st2.show();
+
+	cout << endl;
+	c1.show();
+	c2.show();
+
+	cout << endl;
 	cout << ship::count << endl;
 	cout << ship::sum_volume << endl;
 	cout << sailboat::sum_volume << endl;
 
-	ship* mas[]{&s1, &sb1, &s2, &sb2, new sailboat("Испаньола", 200, 20, 3)};
+	ship* mas[]{ &s1, &sb1, &s2, &sb2, new sailboat("Испаньола", 200, 20, 3) };
 	ship* p;
 	for (int i = 0; i < 5; i++) {
 		p = mas[i];
@@ -89,4 +134,3 @@ int main()
 
 
 //             Дома сделать пароход(мощность[power]), карвет(пушки и паруса)
-
