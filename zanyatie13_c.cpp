@@ -1,9 +1,9 @@
 #include <iostream>
-using namespace std;
-
 #include <string>
-
 using namespace std;
+
+// Создайте шаблонный класс одномерного массива электронных 
+// устройств. Продемонстрируйте работу класса и все его операции. 
 
 class electronica {
 	string name;
