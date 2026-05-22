@@ -63,11 +63,18 @@ public:
 };
 
 int main() {
+    setlocale(LC_ALL, "Russian");
+
     Array<int> a(5);
 
     for (int i = 0; i < (int)a; i++) {
         a[i] = i * 10;
     }
+
+    a.show();
+
+    a[2] = 1;
+    cout << a[1] << endl;
 
     a.show();
 
