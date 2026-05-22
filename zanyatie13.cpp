@@ -29,8 +29,7 @@ public:
 	}
 };
 
-int main() {
-	class smartphone : public electronica {
+class smartphone : public electronica {
 		int camera;
 
 	public:
@@ -43,5 +42,8 @@ int main() {
 			electronica::show();
 			cout << "Разрешение камеры: " << camera << endl;
 		}
-	};
+};
+
+int main() {
+	
 }
