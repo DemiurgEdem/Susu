@@ -32,8 +32,8 @@ timetable* init() {
     tables[6] = { "Краснодар",{21,6},{23,19},{2,13},17652,transit };
     tables[7] = { "Самара",{23,29},{1,45},{2,16},26256,charter };
     tables[8] = { "Челябинск",{5,3},{6,16},{1,13},8238,docking };
-    tables[9] = { "Сочи",{14,57},{16,7},{1,10},7271,charter };
-    tables[10] = { "Краснодар",{21,17},{23,52},{2,35},27237,transit };
+    tables[9] = { "Сочиград",{14,57},{16,7},{1,10},7271,transit };
+    tables[10] = { "Краснодарград",{21,17},{23,52},{2,35},27237,transit };
     tables[11] = { "Волгоград",{7,19},{10,9},{2,50},37828,transit };
     tables[12] = { "Махачкала",{10,4},{12,44},{2,40},27278,docking };
     tables[13] = { "Санкт-Петербург",{0,43},{3,20},{2,37},37348,transit };
@@ -54,84 +54,63 @@ bool isGrad(string str)
     if (len < 4)
         return false;
 
-    return (str.substr(len - 4) == "град") ;
+    return (str.substr(len - 4) == "град");
 }
 
-//////////////////////////////////////////////////////
 
-void printFlight(const timetable& t)
+void printFlight(timetable& t)
 {
     cout << "Пункт: " << t.destination << endl;
-
-    cout << "Вылет: "
-        << t.departure.h << ":"
-        << t.departure.m << endl;
-
-    cout << "Прилет: "
-        << t.arrival.h << ":"
-        << t.arrival.m << endl;
-
-    cout << "Длительность: "
-        << t.flight.h << "ч "
-        << t.flight.m << "м" << endl;
-
+    cout << "Вылет: " << t.departure.h << ":" << t.departure.m << endl;
+    cout << "Прилет: " << t.arrival.h << ":" << t.arrival.m << endl;
+    cout << "Длительность: " << t.flight.h << "ч " << t.flight.m << "м" << endl;
     cout << "Цена: " << t.price << endl;
-
-    cout << "Тип: ";
+    cout << "Тип полета: ";
 
     switch (t.typeflight)
     {
     case charter:
-        cout << "charter";
+        cout << "чартер";
         break;
 
     case transit:
-        cout << "transit";
+        cout << "транзит";
         break;
 
     case docking:
-        cout << "docking";
+        cout << "докинг";
         break;
     }
-
-    cout << endl << endl;
+    
+    cout << endl << "--------------------------" << endl;
 }
-
-//////////////////////////////////////////////////////
 
 void printArray(timetable arr[], int size)
 {
-    for (int i = 0; i < size; i++)
-    {
-        printFlight(arr[i]);
-    }
+    for (int i = 0; i < size; i++) printFlight(arr[i]);
 }
-
-//////////////////////////////////////////////////////
 
 int flightMinutes(ttime t)
 {
     return t.h * 60 + t.m;
 }
 
-//////////////////////////////////////////////////////
-
 void sortFlights(timetable arr[], int size)
 {
-    for (int i = 0; i < size - 1; i++)
+    timetable t;
+    for (int j = 0; j < size - 1; j++)
     {
-        for (int j = 0; j < size - i - 1; j++)
+        for (int i = 0; i < size - 1; i++)
         {
-            if (flightMinutes(arr[j].flight) >
-                flightMinutes(arr[j + 1].flight))
+            if (flightMinutes(arr[i].flight) > flightMinutes(arr[i + 1].flight))
             {
-                swap(arr[j], arr[j + 1]);
+                t = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = t;
             }
         }
     }
 }
-
-//////////////////////////////////////////////////////
 
 void changeFlight(timetable& t)
 {
@@ -142,105 +121,73 @@ void changeFlight(timetable& t)
     cin >> t.price;
 }
 
-//////////////////////////////////////////////////////
-
-bool isNight(ttime t)
-{
-    return (t.h >= 0 && t.h < 6);
-}
-
-//////////////////////////////////////////////////////
-
 int main()
 {
     setlocale(LC_ALL, "");
+    timetable* tables;
+    tables = init();
 
-    timetable* tables = init();
-
-    //////////////////////////////////////////////////
     // 1. Рейсы на "град" и transit
-
     timetable gradFlights[SIZE];
-
     int gradCount = 0;
 
     for (int i = 0; i < SIZE; i++)
     {
-        if (isGrad(tables[i].destination) &&
-            tables[i].typeflight == transit)
+        if (isGrad(tables[i].destination) && tables[i].typeflight == transit)
         {
             gradFlights[gradCount++] = tables[i];
         }
     }
 
-    //////////////////////////////////////////////////
-    // 2. Сортировка
-
-    sortFlights(gradFlights, gradCount);
-
-    cout << "Рейсы на 'град' transit:\n\n";
-
+    cout << endl << "Рейсы на 'град' transit:" << endl;
     printArray(gradFlights, gradCount);
 
-    //////////////////////////////////////////////////
+    // 2. Сортировка
+    sortFlights(gradFlights, gradCount);
+    cout << endl << "Отсортированная структура:" << endl;
+    printArray(gradFlights, gradCount);
+    
     // 3. Конкретный рейс
-
-    cout << "\nКонкретный рейс:\n\n";
-
+    cout << endl << "Конкретный рейс:" << endl;
     printFlight(tables[3]);
-
-    //////////////////////////////////////////////////
+    
     // 4. 5 чартерных ночных рейсов
-
-    cout << "\nНочные чартерные рейсы:\n\n";
-
-    int cnt = 0;
-
-    for (int i = 0; i < SIZE && cnt < 5; i++)
+    
+    cout << endl << "Ночные чартерные рейсы:" << endl;
+    int cnn = 0;
+    for (int i = 0; (i < SIZE) && (cnn < 5); i++)
     {
-        if (tables[i].typeflight == charter &&
-            isNight(tables[i].departure))
+        if ((4 >= tables[i].departure.h >= 0) && tables[i].typeflight == charter)
         {
             printFlight(tables[i]);
-            cnt++;
+            cnn++;
         }
     }
-
-    //////////////////////////////////////////////////
+    
     // 5. Изменение рейса
-
+    cout << endl;
     changeFlight(tables[0]);
-
-    cout << "\nПосле изменения:\n";
-
+    cout << endl << "После изменения:" << endl;
     printFlight(tables[0]);
-
-    //////////////////////////////////////////////////
-    // 6. Стыковочные дешевле N
-
+    
+    // 6. Стыковочные, которые дешевле N
     int N;
-
     cout << "\nВведите N: ";
     cin >> N;
-
+    
     timetable cheapDocking[SIZE];
-
     int cheapCount = 0;
-
+    
     for (int i = 0; i < SIZE; i++)
     {
-        if (tables[i].typeflight == docking &&
-            tables[i].price < N)
+        if (tables[i].typeflight == docking && tables[i].price < N)
         {
             cheapDocking[cheapCount++] = tables[i];
         }
     }
-
-    cout << "\nДешевые стыковочные рейсы:\n\n";
-
+    
+    cout << endl << "Дешевые стыковочные рейсы:" << endl;
     printArray(cheapDocking, cheapCount);
-
-    delete[] tables;
-
-    return 0;
+    
+    tables = nullptr;
 }
