@@ -12,7 +12,7 @@ struct ttime {
 };
 
 struct timetable {
-    char destination[25];
+    string destination;
     ttime departure;
     ttime arrival;
     ttime flight;
@@ -47,16 +47,14 @@ timetable* init() {
     return tables;
 }
 
-//////////////////////////////////////////////////////
-
-bool isGrad(const char* str)
+bool isGrad(string str)
 {
-    int len = strlen(str);
+    int len = str.length();
 
     if (len < 4)
         return false;
 
-    return strcmp(str + len - 4, "град") == 0;
+    return (str.substr(len - 4) == "град") ;
 }
 
 //////////////////////////////////////////////////////
