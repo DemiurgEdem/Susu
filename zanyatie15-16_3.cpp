@@ -1,10 +1,12 @@
 #include <iostream> 
 #include <opencv2/opencv.hpp> 
 using namespace std;
+
+
 int main() {
 
     // Загружаем изображение 
-    cv::Mat image = cv::imread("../Cpp_logo.jpg");
+    cv::Mat image = cv::imread("C:\\Users\\Danfok\\source\\repos\\Programming Cpp\\Programming Cpp\\Cpp_logo.jpg");
     if (image.empty()) {
         std::cerr << "Ошибка: не удалось загрузить изображение." << std::endl;
         return -1;
