@@ -1,10 +1,20 @@
+
+
+
+
+// Нужно изменять текстовый файл с прайсами на спец кодировку, а не UTF-8
+
+
+
 #include <iostream>
+#include <Windows.h>
 #include <fstream>
+#include <locale>
 
 using namespace std;
 
 enum ttype { charter, transit, docking };
-const int SIZE = 20;
+const int TABLE_SIZE = 20;
 struct ttime {
 	int h, m;
 };
@@ -19,7 +29,7 @@ struct timetable {
 };
 
 timetable* init() {
-	timetable* tables = new timetable[SIZE];
+	timetable* tables = new timetable[TABLE_SIZE];
 	tables[0] = { "Санкт-Петербург", { 19, 6 }, { 20, 15 }, { 1, 9 }, 5236, charter };
 	tables[1] = { "Сочи", { 1, 17 }, { 3, 0 }, { 1, 43 }, 4362, docking };
 	tables[2] = { "Калининград", { 9, 32 }, { 11, 16 }, { 1, 34 }, 6426, charter };
@@ -43,67 +53,57 @@ timetable* init() {
 	return tables;
 }
 
-//bool isGrad(const char* str) {
-//	if (str[-4] == "град")
-//}
-
 int main() {
-	setlocale(LC_ALL, "");
+	setlocale(LC_ALL, "Russian");
+
+	wchar_t destination[25];
 
 	timetable* tables;
 	tables = init();
+	ifstream fin;
+	fin.open("prices.txt");
 
-	cout << tables[17].destination << endl;
-	cout << tables[0].arrival.h << endl;
+	if (fin.is_open())
+	{
+		char oldDestination[25];
+		int newPrice;
 
-	char lilStr[25];
-	strcpy_s(lilStr, tables[17].destination);
-	cout << lilStr;
+		
+		/*for (int i = 0; i < TABLE_SIZE; i++)
+		{
+			fin >> oldDestination >> newPrice;
+			cout << oldDestination << " " << newPrice << endl;
+
+		}*/
+
+		while (!fin.eof())
+		{
+			fin >> oldDestination >> newPrice;
+			cout << oldDestination << " " << newPrice << endl;
+
+			for (int i = 0; i < TABLE_SIZE; i++)
+			{
+				if (oldDestination == tables[i].destination)
+				{
+					tables[i].price = newPrice;
+					cout << "Изменено: " << tables[i].destination << " - цена перелета " << tables[i].price << endl;
+					break;
+				}
+			}
+		}
+		fin.close();
+	}
+	else cout << "File not found" << endl;
 
 
-
-
-
-
-
-
-
-
-
+	//ofstream out;
+	//out.open("prices2.txt");
+	//int i = 10;
+	//char s[10]{ "Hello" };
+	//double d = 2e-10;
+	//out << i << "\n" << s << "\n" << d <<
+	//	endl;
+	//out.close();
 
 	system("pause");
 }
-
-
-
-
-
-
-
-//struct timetable w;
-//timetable* tables;
-//tables = init();
-
-//ifstream fin1;
-////string str;
-//fin1.open("prices.txt"); // файл должен быть в ANSI _кодировке, чтобы выводились русские буквы
-//if (fin1.is_open()) {
-//	int i = 0;
-//	while (!fin1.eof())
-//	{
-//		fin1 >> tables[i].price;
-//		cout << tables[i].destination << " " << tables[i].price << endl;
-//		i++;
-//	}
-//	fin1.close();
-//}
-//else cout << "File not found";
-
-//ofstream out;
-//out.open("prices2.txt");
-//int i = 10;
-//char s[10]{ "Hello" };
-//double d = 2e-10;
-//out << i << "\n" << s << "\n" << d <<
-//	endl;
-//out.close();
