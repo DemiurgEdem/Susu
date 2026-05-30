@@ -1,3 +1,9 @@
+// Подзадание 2
+
+
+
+// Подзадание 5
+
 #include <iostream> 
 #include <chrono> 
 #include <Eigen/Dense>
@@ -7,18 +13,29 @@ using namespace Eigen;
 int main() {
     //начало временнОго отрезка 
     auto start = chrono::high_resolution_clock::now();
-    //... 
-    //код 
-    //... 
-    //конец временнОго отрезка 
+
+    int n, m;
+    cout << "Enter the dimensions of the matrix n×m: ";
+    cin >> n, m;
+    MatrixXd mat(n, m);
+    cout << "Enter the numbers for the " << n << "×" << m << " matrix: \n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> mat(i, j);
+            cout << endl;
+        }
+    }
+
+    MatrixXd trMat = mat.transpose();
+    
     auto end = chrono::high_resolution_clock::now();
-    //вычисление длительности по времени в секундах 
     chrono::duration<double> duration = end - start;
-    //вычисление длительности по времени в миллисекундах (действует округление) 
     chrono::milliseconds ms = chrono::duration_cast<chrono::milliseconds>(duration);
-    //вывод времени в секундах 
+
+    cout << "Original matrix: \n" << mat << endl;
+    cout << "Transpose matrix: \n" << trMat << endl;
+    
     cout << duration.count() << " s" << endl;
-    //вывод времени в миллисекундах 
     cout << ms.count() << " ms" << endl;
 
     return 0;
