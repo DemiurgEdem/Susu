@@ -12,3 +12,5 @@ int main() {
 	if (str.substr(len - 3) == "вет") cout << "Прокатит";
 	else "Облом";
 }
+
+https://your-durev.com/sub/XnrDoHxU6xXjqzG6MGYMqA
